@@ -30,12 +30,17 @@ export default function App() {
   const fetchState = async () => {
     try {
       const response = await fetch("/api/state");
+      if (!response.ok) return; // Silent return on non-200
       const data = await response.json();
       setZones(data.zones);
       setAgents(data.agents);
       setIncidents(data.incidents);
       setTelemetry(data.telemetry);
-    } catch (err) {
+    } catch (err: any) {
+      // Ignore network errors during dev server restarts
+      if (err.message && err.message.includes("Failed to fetch")) {
+        return;
+      }
       console.error("Failed to fetch stadium state:", err);
     }
   };
@@ -109,6 +114,7 @@ export default function App() {
           return {
             ...inc,
             status: "resolved",
+            resolvedAt: new Date().toISOString(),
             timeline: [
               ...inc.timeline,
               { time: new Date().toLocaleTimeString(), event: "Incident declared resolved by operations command supervisor.", agent: "master" }

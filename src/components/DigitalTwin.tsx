@@ -29,6 +29,11 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
     return "#10b981";
   };
 
+  const getZoneAnimation = (zoneId: string, defaultClasses: string) => {
+    const density = zones.find((z) => z.id === zoneId)?.crowdDensity || 0;
+    return density > 90 ? `${defaultClasses} svg-critical-glow` : defaultClasses;
+  };
+
   const selectedZone = zones.find((z) => z.id === selectedZoneId);
   const hoveredZone = zones.find((z) => z.id === hoveredZoneId);
 
@@ -60,7 +65,7 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
 
           {/* Transit Hub (Top Left) */}
           <g
-            className="cursor-pointer transition-all duration-300"
+            className={getZoneAnimation("transit_hub", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("transit_hub")}
             onMouseEnter={() => setHoveredZoneId("transit_hub")}
             onMouseLeave={() => setHoveredZoneId(null)}
@@ -82,7 +87,7 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
 
           {/* VIP Lounges (Bottom Right) */}
           <g
-            className="cursor-pointer transition-all duration-300"
+            className={getZoneAnimation("vip_lounge", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("vip_lounge")}
             onMouseEnter={() => setHoveredZoneId("vip_lounge")}
             onMouseLeave={() => setHoveredZoneId(null)}
@@ -104,7 +109,7 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
 
           {/* Outer Gate C Perimeter (North Entrance - Top Center) */}
           <g
-            className="cursor-pointer transition-all duration-300"
+            className={getZoneAnimation("gate_c", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("gate_c")}
             onMouseEnter={() => setHoveredZoneId("gate_c")}
             onMouseLeave={() => setHoveredZoneId(null)}
@@ -114,7 +119,6 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
               fill={getDensityColor(zones.find((z) => z.id === "gate_c")?.crowdDensity || 0)}
               stroke={selectedZoneId === "gate_c" ? "#3b82f6" : getDensityStroke(zones.find((z) => z.id === "gate_c")?.crowdDensity || 0)}
               strokeWidth={selectedZoneId === "gate_c" ? "3" : "1.5"}
-              className={zones.find((z) => z.id === "gate_c")?.status === "critical" ? "critical-glow" : ""}
             />
             <text x="300" y="55" fill="#fff" fontSize="11" fontWeight="bold" textAnchor="middle" className="font-mono pointer-events-none">
               GATE C - METRO INGRESS
@@ -128,7 +132,7 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
             fill={getDensityColor(zones.find((z) => z.id === "concourse_a")?.crowdDensity || 0)}
             stroke={selectedZoneId === "concourse_a" ? "#3b82f6" : getDensityStroke(zones.find((z) => z.id === "concourse_a")?.crowdDensity || 0)}
             strokeWidth={selectedZoneId === "concourse_a" ? "2.5" : "1.5"}
-            className="cursor-pointer transition-all duration-300"
+            className={getZoneAnimation("concourse_a", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("concourse_a")}
             onMouseEnter={() => setHoveredZoneId("concourse_a")}
             onMouseLeave={() => setHoveredZoneId(null)}
@@ -140,7 +144,7 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
             fill={getDensityColor(zones.find((z) => z.id === "concourse_b")?.crowdDensity || 0)}
             stroke={selectedZoneId === "concourse_b" ? "#3b82f6" : getDensityStroke(zones.find((z) => z.id === "concourse_b")?.crowdDensity || 0)}
             strokeWidth={selectedZoneId === "concourse_b" ? "2.5" : "1.5"}
-            className="cursor-pointer transition-all duration-300"
+            className={getZoneAnimation("concourse_b", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("concourse_b")}
             onMouseEnter={() => setHoveredZoneId("concourse_b")}
             onMouseLeave={() => setHoveredZoneId(null)}
@@ -155,7 +159,7 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
             fill={getDensityColor(zones.find((z) => z.id === "stand_a")?.crowdDensity || 0)}
             stroke={selectedZoneId === "stand_a" ? "#3b82f6" : getDensityStroke(zones.find((z) => z.id === "stand_a")?.crowdDensity || 0)}
             strokeWidth={selectedZoneId === "stand_a" ? "3" : "1.5"}
-            className="cursor-pointer transition-all duration-300"
+            className={getZoneAnimation("stand_a", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("stand_a")}
             onMouseEnter={() => setHoveredZoneId("stand_a")}
             onMouseLeave={() => setHoveredZoneId(null)}
@@ -171,7 +175,7 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
             stroke={selectedZoneId === "stand_b" ? "#3b82f6" : getDensityStroke(zones.find((z) => z.id === "stand_b")?.crowdDensity || 0)}
             strokeWidth={selectedZoneId === "stand_b" ? "3" : "1"}
             strokeDasharray="4,4"
-            className="cursor-pointer transition-all duration-300"
+            className={getZoneAnimation("stand_b", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("stand_b")}
             onMouseEnter={() => setHoveredZoneId("stand_b")}
             onMouseLeave={() => setHoveredZoneId(null)}
@@ -179,7 +183,7 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
 
           {/* Center Pitch (Field of Play) */}
           <g
-            className="cursor-pointer transition-all duration-300"
+            className={getZoneAnimation("pitch", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("pitch")}
             onMouseEnter={() => setHoveredZoneId("pitch")}
             onMouseLeave={() => setHoveredZoneId(null)}

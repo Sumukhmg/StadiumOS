@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Incident, AgentRole } from "../types";
-import { AlertTriangle, Clock, MapPin, CheckCircle, ChevronDown, ChevronUp, Plus, UserCheck, ShieldAlert, Sparkles, HelpCircle } from "lucide-react";
+import { AlertTriangle, Clock, MapPin, CheckCircle, ChevronDown, ChevronUp, Plus, UserCheck, ShieldAlert, Sparkles, HelpCircle, Timer } from "lucide-react";
 
 interface LiveIncidentTrackerProps {
   incidents: Incident[];
@@ -13,6 +13,48 @@ interface LiveIncidentTrackerProps {
   onResolveIncident: (id: string) => void;
   onCompleteTask: (incidentId: string, taskId: string) => void;
 }
+
+const IncidentDuration: React.FC<{ reportedAt: string; resolvedAt?: string; status: Incident["status"] }> = ({ reportedAt, resolvedAt, status }) => {
+  const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    if (status === "resolved") return;
+    const interval = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(interval);
+  }, [status]);
+
+  const start = new Date(reportedAt).getTime();
+  const end = resolvedAt ? new Date(resolvedAt).getTime() : now;
+  const durationMs = Math.max(0, end - start);
+  
+  const minutes = Math.floor(durationMs / 60000);
+  const seconds = Math.floor((durationMs % 60000) / 1000);
+  
+  return (
+    <div className="flex items-center gap-3 text-[10px] font-mono mt-4 mb-2">
+      <div className="flex flex-col items-center">
+        <span className="text-zinc-500 font-bold uppercase">Created</span>
+        <span className="text-cyan-400">{new Date(reportedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
+      </div>
+      
+      <div className="flex-1 flex items-center gap-2">
+        <div className="h-px bg-white/10 flex-1 relative">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#050507] px-2 flex items-center gap-1.5 text-zinc-300 border border-white/10 rounded-full">
+            <Timer className="w-3 h-3 text-amber-400" />
+            {minutes}m {seconds}s
+          </div>
+        </div>
+      </div>
+      
+      <div className="flex flex-col items-center">
+        <span className="text-zinc-500 font-bold uppercase">{status === "resolved" ? "Resolved" : "Active"}</span>
+        <span className={status === "resolved" ? "text-emerald-400" : "text-amber-400 animate-pulse"}>
+          {status === "resolved" && resolvedAt ? new Date(resolvedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "ONGOING"}
+        </span>
+      </div>
+    </div>
+  );
+};
 
 export const LiveIncidentTracker: React.FC<LiveIncidentTrackerProps> = ({
   incidents,
@@ -183,7 +225,11 @@ export const LiveIncidentTracker: React.FC<LiveIncidentTrackerProps> = ({
             return (
               <div
                 key={incident.id}
-                className="bg-white/5 border border-white/10 rounded-xl overflow-hidden transition-all duration-300"
+                className={`border rounded-xl overflow-hidden transition-all duration-300 ${
+                  incident.severity === "critical"
+                    ? "critical-bg-flash"
+                    : "bg-white/5 border-white/10"
+                }`}
               >
                 {/* Header Row */}
                 <div
@@ -223,6 +269,9 @@ export const LiveIncidentTracker: React.FC<LiveIncidentTrackerProps> = ({
                 {/* Expanded Details Panel */}
                 {isExpanded && (
                   <div className="border-t border-white/5 p-4 bg-[#050507]/60 text-[11px] font-mono space-y-4">
+                    {/* Duration Timeline Tracker */}
+                    <IncidentDuration reportedAt={incident.reportedAt} resolvedAt={incident.resolvedAt} status={incident.status} />
+
                     {/* Explainable AI block */}
                     {incident.explainableAIReasoning && (
                       <div className="bg-blue-950/20 border border-blue-900/35 p-3 rounded-lg">

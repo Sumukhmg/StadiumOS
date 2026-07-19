@@ -44,6 +44,36 @@
   animation: pulse-glow 2s infinite ease-in-out;
 }
 
+@keyframes flash-red-bg {
+  0%, 100% {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+  50% {
+    background-color: rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.6);
+  }
+}
+
+.critical-bg-flash {
+  animation: flash-red-bg 2s infinite ease-in-out;
+}
+
+@keyframes svg-critical-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.6));
+    stroke: #ef4444;
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(245, 158, 11, 0.8));
+    stroke: #f59e0b;
+  }
+}
+
+.svg-critical-glow {
+  animation: svg-critical-glow 1.5s infinite ease-in-out;
+}
+
 /* Glassmorphism Presets */
 .glass-panel {
   background: rgba(10, 10, 14, 0.75);

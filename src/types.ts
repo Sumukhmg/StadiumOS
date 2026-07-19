@@ -48,6 +48,7 @@ export interface Incident {
   location: string;
   status: "reported" | "assessing" | "active" | "mitigated" | "resolved";
   reportedAt: string;
+  resolvedAt?: string;
   assignedAgents: AgentRole[];
   timeline: {
     time: string;
