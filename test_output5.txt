@@ -1,0 +1,30 @@
+
+ RUN  v4.1.10 /app/applet
+      Coverage enabled with v8
+
+ ❯ src/components/PredictiveAnalytics.test.tsx (6 tests | 2 failed) 543ms
+     ✓ renders the chart and input form 98ms
+     ✓ disables the run button if input is empty 220ms
+     ✓ selects a preset scenario and updates the textarea 63ms
+     ✓ allows entering a custom scenario 48ms
+     × runs a simulation and displays results 77ms
+     × changes graph views 31ms
+ ✓ src/App.test.tsx (6 tests) 390ms
+ ✓ src/components/LiveIncidentTracker.test.tsx (8 tests) 357ms
+ ❯ src/components/AIBriefingGenerator.test.tsx (4 tests | 2 failed) 228ms
+     ✓ renders the initial state 115ms
+     ✓ renders with a selected zone 35ms
+     × can download report 31ms
+     × changes perspective 41ms
+ ✓ src/components/AgentStatusGrid.test.tsx (2 tests) 239ms
+ ❯ src/components/DigitalTwin.test.tsx (3 tests | 1 failed) 295ms
+     × renders without crashing and displays critical density properly 259ms
+     ✓ handles keyboard navigation (Enter key) 18ms
+     ✓ handles mouse click on zone 13ms
+ ✓ src/logic.test.ts (2 tests) 6ms
+
+ Test Files  3 failed | 4 passed (7)
+      Tests  5 failed | 26 passed (31)
+   Start at  17:46:22
+   Duration  20.61s (transform 528ms, setup 1.11s, import 3.51s, tests 2.06s, environment 10.62s)
+

@@ -47,7 +47,7 @@ export const AIBriefingGenerator: React.FC<AIBriefingGeneratorProps> = ({
         setBriefing(data.briefing);
       }
     } catch (err) {
-      console.error("Failed to generate briefing:", err);
+      console.warn("Failed to generate briefing:", err);
       setBriefing("Error compiling briefing report. Check your Gemini API Key.");
     } finally {
       setIsLoading(false);

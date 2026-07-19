@@ -418,7 +418,7 @@ app.post("/api/agent/command", async (req, res) => {
     `;
 
     const response = await client.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-3.1-flash-lite",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -463,13 +463,33 @@ app.post("/api/agent/command", async (req, res) => {
 
     res.json({
       response: parsed.responseText,
-      modelUsed: "gemini-3.5-flash",
+      modelUsed: "gemini-3.1-flash-lite",
       agentUpdates: agents,
     });
 
   } catch (error: any) {
-    console.error("Gemini Command Error:", error);
-    res.status(500).json({ error: "Failed to process command with AI.", details: error.message });
+    console.warn("Gemini Command Error:", error);
+    // Fallback on error
+    const simulatedResponse = `[Simulated Master AI] Executing instruction: "${command}". Handled by Security & Crowd Control agents. Automated patrol deployed to section. (API Error Fallback)`;
+    
+    agents = agents.map(a => {
+      if (a.id === "master") {
+        return {
+          ...a,
+          status: "responding",
+          latestThought: `Analyzing user command: "${command}". Initiating standard tactical protocols.`,
+          latestAction: `Dispatched command to security and logistics units.`,
+          timestamp: new Date().toISOString()
+        };
+      }
+      return a;
+    });
+
+    res.json({
+      response: simulatedResponse,
+      modelUsed: "Simulation Mode (API Error Fallback)",
+      agentUpdates: agents,
+    });
   }
 });
 
@@ -557,7 +577,7 @@ app.post("/api/simulation/run", async (req, res) => {
     `;
 
     const response = await client.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-3.1-flash-lite",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -599,11 +619,39 @@ app.post("/api/simulation/run", async (req, res) => {
     });
 
     const result = JSON.parse(response.text?.trim() || "{}");
-    res.json({ result, modelUsed: "gemini-3.5-flash" });
+    res.json({ result, modelUsed: "gemini-3.1-flash-lite" });
 
   } catch (error: any) {
-    console.error("Gemini Simulation Error:", error);
-    res.status(500).json({ error: "Failed to compile simulation model.", details: error.message });
+    console.warn("Gemini Simulation Error:", error);
+    const mockSimulation: SimulationResult = {
+      scenario,
+      severity: "high",
+      predictions: [
+        `Ingress at Gate C will slow down by 35%, causing localized crowd surges near concourse East.`,
+        `Increased transit dwell times will create passenger backups up to 2.5 kilometers outside MetLife gates.`,
+        `Ancillary power demand from ventilation will spike by 15%, exceeding baseline limits.`
+      ],
+      suggestedSOP: [
+        `Implement active train arrivals spacing of 6-minute intervals to meter inflow.`,
+        `Deploy auxiliary security stewards at perimeter fence sections to manage queue line integrity.`,
+        `Switch concourse HVAC systems to peak-shaving energy profiles.`
+      ],
+      cascadingRisks: [
+        { system: "Crowd Safety", likelihood: "high", impact: "Friction at entry scanners resulting in potential minor crushing risk." },
+        { system: "Logistics Grid", likelihood: "medium", impact: "Train system backlog delaying late spectators past match kickoff." },
+        { system: "Stadium Power", likelihood: "low", impact: "Fossil fuel generator startup required if secondary chiller malfunctions." }
+      ],
+      recommendedActions: [
+        { agent: "crowd", action: "Deploy physical spacing barricades 50m outside Gate C.", priority: "high" },
+        { agent: "transport", action: "Instruct rail operators to pause train departures at secaucus station.", priority: "medium" },
+        { agent: "energy", action: "Activate emergency storage battery pack units to cover chiller peaks.", priority: "low" }
+      ]
+    };
+
+    return res.json({
+      result: mockSimulation,
+      modelUsed: "Simulation Mode (API Error Fallback)"
+    });
   }
 });
 
@@ -660,15 +708,30 @@ app.post("/api/briefing", async (req, res) => {
     `;
 
     const response = await client.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-3.1-flash-lite",
       contents: prompt,
     });
 
-    res.json({ briefing: response.text, modelUsed: "gemini-3.5-flash" });
+    res.json({ briefing: response.text, modelUsed: "gemini-3.1-flash-lite" });
 
   } catch (error: any) {
-    console.error("Gemini Briefing Error:", error);
-    res.status(500).json({ error: "Failed to generate briefing.", details: error.message });
+    console.warn("Gemini Briefing Error:", error);
+    const mockBriefing = `
+      # EXECUTIVE BRIEFING: ${targetText.toUpperCase()} (FALLBACK)
+      **Timestamp:** ${new Date().toISOString()} | **Scope:** Live Stadium Operations (FIFA World Cup 2026)
+      
+      ### 1. OPERATIONAL EXECUTIVE SUMMARY
+      Stadium systems are operating at peak safety standard. Crowd density is concentrated at **Gate C** and **Concourse East** due to early seat-fill procedures. Automated digital twin feeds are streaming real-time density parameters with zero network lag.
+      
+      ### 2. RISK ANALYSIS & TACTICAL ASSESSMENTS
+      - **Inflow Strain:** Gate C scanning rate is restricted byTurnstile 14B sensor calibrating. Average queue times hold at 14 minutes.
+      - **Thermal Ventilation:** Concourse East registers slightly high ambient humidity. Active exhaust ventilation loops are engaged.
+      
+      ### 3. ACTIONABLE COMMAND RECOMMENDATIONS
+      - **Dynamic Funneling:** Re-route stand influx from North Transit Hub toward West Concourses.
+      - **Stewarding Pre-Positioning:** Dispatch supplementary guest services staff to lower Stand A.
+    `;
+    return res.json({ briefing: mockBriefing, modelUsed: "Simulation Mode (API Error Fallback)" });
   }
 });
 

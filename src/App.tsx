@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { StadiumZone, AgentState, Incident, TelemetryData } from "./types";
 import { DigitalTwin } from "./components/DigitalTwin";
 import { AgentStatusGrid } from "./components/AgentStatusGrid";
@@ -26,27 +26,27 @@ export default function App() {
   // Time tracker
   const [currentTime, setCurrentTime] = useState(new Date("2026-07-19T01:21:01-07:00"));
 
+  // Fetch current state from full-stack server
+  const fetchState = useCallback(async () => {
+    try {
+      const response = await fetch("/api/state");
+      if (!response.ok) return; // Silent return on non-200
+      const data = await response.json();
+      setZones(data.zones);
+      setAgents(data.agents);
+      setIncidents(data.incidents);
+      setTelemetry(data.telemetry);
+    } catch (err: any) {
+      // Ignore network errors during dev server restarts
+      if (err.message && err.message.includes("Failed to fetch")) {
+        return;
+      }
+      console.warn("Failed to fetch stadium state:", err);
+    }
+  }, []);
+
   // Set up polling
   useEffect(() => {
-    // Fetch current state from full-stack server
-    const fetchState = async () => {
-      try {
-        const response = await fetch("/api/state");
-        if (!response.ok) return; // Silent return on non-200
-        const data = await response.json();
-        setZones(data.zones);
-        setAgents(data.agents);
-        setIncidents(data.incidents);
-        setTelemetry(data.telemetry);
-      } catch (err: any) {
-        // Ignore network errors during dev server restarts
-        if (err.message && err.message.includes("Failed to fetch")) {
-          return;
-        }
-        console.error("Failed to fetch stadium state:", err);
-      }
-    };
-
     fetchState();
     const interval = setInterval(() => {
       fetchState();
@@ -54,7 +54,7 @@ export default function App() {
       setCurrentTime(prev => new Date(prev.getTime() + 5000));
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchState]);
 
   // Handle direct custom or voice command dispatches
   const handleCommand = async (commandText: string) => {
@@ -76,7 +76,7 @@ export default function App() {
         fetchState();
       }
     } catch (err) {
-      console.error("Failed to run agent command:", err);
+      console.warn("Failed to run agent command:", err);
       setCommandResponse("Execution failed. Unable to coordinate response.");
     } finally {
       setCommandLoading(false);
@@ -84,7 +84,7 @@ export default function App() {
   };
 
   // Report new incident via form
-  const handleIncidentCreate = async (newIncidentData: {
+  const handleIncidentCreate = useCallback(async (newIncidentData: {
     title: string;
     location: string;
     category: Incident["category"];
@@ -98,16 +98,15 @@ export default function App() {
       });
       const data = await response.json();
       if (data.success) {
-        // Refresh state to reflect the reported incident
         fetchState();
       }
     } catch (err) {
-      console.error("Failed to create incident:", err);
+      console.warn("Failed to create incident:", err);
     }
-  };
+  }, []);
 
   // Resolve incident (optimistic update + log update)
-  const handleResolveIncident = (id: string) => {
+  const handleResolveIncident = useCallback((id: string) => {
     setIncidents(prev =>
       prev.map(inc => {
         if (inc.id === id) {
@@ -125,10 +124,10 @@ export default function App() {
         return inc;
       })
     );
-  };
+  }, []);
 
   // Complete specific subtask optimistically
-  const handleCompleteTask = (incidentId: string, taskId: string) => {
+  const handleCompleteTask = useCallback((incidentId: string, taskId: string) => {
     setIncidents(prev =>
       prev.map(inc => {
         if (inc.id === incidentId) {
@@ -149,7 +148,7 @@ export default function App() {
         return inc;
       })
     );
-  };
+  }, []);
 
   // Reset core state
   const handleResetState = async () => {
@@ -162,7 +161,7 @@ export default function App() {
         setCommandResponse(null);
       }
     } catch (err) {
-      console.error("State reset failed:", err);
+      console.warn("State reset failed:", err);
     }
   };
 

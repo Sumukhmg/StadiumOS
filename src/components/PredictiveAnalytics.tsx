@@ -41,7 +41,7 @@ export const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({ teleme
         setSimulationResult(data.result);
       }
     } catch (err) {
-      console.error("Simulation run failed:", err);
+      console.warn("Simulation run failed:", err);
     } finally {
       setIsSimulating(false);
     }

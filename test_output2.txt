@@ -1,0 +1,27 @@
+
+ RUN  v4.1.10 /app/applet
+      Coverage enabled with v8
+
+ ✓ src/components/PredictiveAnalytics.test.tsx (2 tests) 354ms
+ ✓ src/components/AIBriefingGenerator.test.tsx (2 tests) 163ms
+ ✓ src/components/AgentStatusGrid.test.tsx (2 tests) 187ms
+ ✓ src/components/LiveIncidentTracker.test.tsx (2 tests) 172ms
+ ✓ src/components/DigitalTwin.test.tsx (2 tests) 106ms
+ ✓ src/logic.test.ts (2 tests) 6ms
+
+ Test Files  6 passed (6)
+      Tests  12 passed (12)
+   Start at  17:30:40
+   Duration  15.66s (transform 330ms, setup 886ms, import 2.51s, tests 988ms, environment 8.77s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |    48.3 |    43.23 |   39.25 |    49.3 |                   
+ ...gGenerator.tsx |   67.56 |    84.21 |   55.55 |   66.66 | ...-68,83,100-119 
+ ...StatusGrid.tsx |   70.58 |       50 |   72.72 |   74.19 | ...83-138,180-181 
+ DigitalTwin.tsx   |   52.17 |    52.42 |    41.5 |      50 | ...83-186,203-218 
+ ...entTracker.tsx |   30.64 |    14.28 |   22.72 |   33.92 | ...49-200,236-357 
+ ...eAnalytics.tsx |   29.41 |    33.33 |   16.66 |   31.25 | ...,51-54,125-244 
+-------------------|---------|----------|---------|---------|-------------------

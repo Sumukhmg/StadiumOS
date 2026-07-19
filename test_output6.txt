@@ -1,0 +1,24 @@
+
+ RUN  v4.1.10 /app/applet
+      Coverage enabled with v8
+
+ ❯ src/components/DigitalTwin.test.tsx (3 tests | 1 failed) 231ms
+     × renders without crashing and displays critical density properly 189ms
+     ✓ handles keyboard navigation (Enter key) 22ms
+     ✓ handles mouse click on zone 15ms
+ ❯ src/components/AIBriefingGenerator.test.tsx (4 tests | 2 failed) 233ms
+     ✓ renders the initial state 117ms
+     ✓ renders with a selected zone 35ms
+     × can download report 33ms
+     × changes perspective 44ms
+ ✓ src/components/PredictiveAnalytics.test.tsx (6 tests) 623ms
+ ✓ src/App.test.tsx (6 tests) 379ms
+ ✓ src/components/LiveIncidentTracker.test.tsx (8 tests) 385ms
+ ✓ src/components/AgentStatusGrid.test.tsx (2 tests) 178ms
+ ✓ src/logic.test.ts (2 tests) 6ms
+
+ Test Files  2 failed | 5 passed (7)
+      Tests  3 failed | 28 passed (31)
+   Start at  17:47:23
+   Duration  18.59s (transform 379ms, setup 962ms, import 2.89s, tests 2.04s, environment 9.86s)
+

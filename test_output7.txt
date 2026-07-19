@@ -1,0 +1,31 @@
+
+ RUN  v4.1.10 /app/applet
+      Coverage enabled with v8
+
+ ✓ src/components/AIBriefingGenerator.test.tsx (4 tests) 248ms
+ ✓ src/components/PredictiveAnalytics.test.tsx (6 tests) 556ms
+ ✓ src/components/LiveIncidentTracker.test.tsx (8 tests) 395ms
+ ✓ src/App.test.tsx (6 tests) 393ms
+ ✓ src/components/DigitalTwin.test.tsx (3 tests) 256ms
+ ✓ src/components/AgentStatusGrid.test.tsx (2 tests) 194ms
+ ✓ src/logic.test.ts (2 tests) 5ms
+
+ Test Files  7 passed (7)
+      Tests  31 passed (31)
+   Start at  17:48:54
+   Duration  17.99s (transform 408ms, setup 963ms, import 2.83s, tests 2.05s, environment 9.34s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   80.43 |    55.77 |   76.92 |   82.27 |                   
+ src               |   83.72 |     40.9 |    91.3 |   85.36 |                   
+  App.tsx          |   83.72 |     40.9 |    91.3 |   85.36 | ...24,140,148,164 
+ src/components    |   79.23 |     57.2 |   73.83 |    81.1 |                   
+  ...Generator.tsx |   89.18 |    89.47 |   77.77 |   88.88 | 50-51,83,119      
+  ...tatusGrid.tsx |   70.58 |       50 |   72.72 |   74.19 | ...83-138,180-181 
+  DigitalTwin.tsx  |   73.91 |    50.48 |   66.03 |   70.96 | ...03-204,215-216 
+  ...ntTracker.tsx |    75.8 |    53.57 |   77.27 |   82.14 | ...72-186,237,341 
+  ...Analytics.tsx |   94.11 |    74.07 |     100 |   96.87 | 44                
+-------------------|---------|----------|---------|---------|-------------------

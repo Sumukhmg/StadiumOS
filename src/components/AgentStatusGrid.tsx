@@ -79,7 +79,16 @@ export const AgentStatusGrid: React.FC<AgentStatusGridProps> = ({ agents, onComm
             <div
               key={agent.id}
               onClick={() => setSelectedAgent(agent)}
-              className={`bg-[#0a0a0e] rounded-xl p-3.5 flex flex-col justify-between cursor-pointer hover:bg-white/5 transition-all duration-300 border ${
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setSelectedAgent(agent);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={`Select ${agent.name}`}
+              className={`bg-[#0a0a0e] rounded-xl p-3.5 flex flex-col justify-between cursor-pointer hover:bg-white/5 transition-all duration-300 border focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 selectedAgent?.id === agent.id ? "border-blue-500 shadow-lg shadow-blue-500/5" : "border-white/10"
               }`}
             >
@@ -167,6 +176,11 @@ export const AgentStatusGrid: React.FC<AgentStatusGridProps> = ({ agents, onComm
                   placeholder={`e.g., Deploy additional teams to Stand A...`}
                   value={customActionPrompt}
                   onChange={(e) => setCustomActionPrompt(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      triggerDirectAction(selectedAgent);
+                    }
+                  }}
                   className="flex-1 bg-[#050507] border border-white/10 rounded-lg px-3 py-2 text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-blue-500"
                 />
                 <button

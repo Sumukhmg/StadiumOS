@@ -1,0 +1,21 @@
+
+ RUN  v4.1.10 /app/applet
+      Coverage enabled with v8
+
+ ❯ src/components/LiveIncidentTracker.test.tsx (5 tests | 1 failed) 300ms
+     ✓ renders the incident tracker header and incidents 99ms
+     ✓ opens new incident form 63ms
+     × submits a new incident form 59ms
+     ✓ expands incident details when clicked 41ms
+     ✓ resolves an incident 33ms
+ ✓ src/components/PredictiveAnalytics.test.tsx (4 tests) 495ms
+ ✓ src/components/AgentStatusGrid.test.tsx (2 tests) 202ms
+ ✓ src/components/AIBriefingGenerator.test.tsx (2 tests) 167ms
+ ✓ src/components/DigitalTwin.test.tsx (3 tests) 121ms
+ ✓ src/logic.test.ts (2 tests) 6ms
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  1 failed | 17 passed (18)
+   Start at  17:33:16
+   Duration  17.42s (transform 478ms, setup 985ms, import 2.95s, tests 1.29s, environment 9.52s)
+

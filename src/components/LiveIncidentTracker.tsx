@@ -213,10 +213,10 @@ export const LiveIncidentTracker: React.FC<LiveIncidentTrackerProps> = ({
       )}
 
       {/* Incidents List */}
-      <div className="flex-1 overflow-y-auto max-h-[360px] pr-1 space-y-3">
+      <div className="flex-1 overflow-y-auto max-h-[360px] pr-1 space-y-3" aria-live="polite" aria-atomic="false">
         {incidents.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full py-8 text-slate-500 text-center text-xs">
-            <HelpCircle className="w-8 h-8 mb-2 opacity-55" />
+            <HelpCircle className="w-8 h-8 mb-2 opacity-55" aria-hidden="true" />
             <span>All zones reporting nominal status. No active incidents.</span>
           </div>
         ) : (
@@ -234,7 +234,12 @@ export const LiveIncidentTracker: React.FC<LiveIncidentTrackerProps> = ({
                 {/* Header Row */}
                 <div
                   onClick={() => setExpandedId(isExpanded ? null : incident.id)}
-                  className="p-3.5 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors"
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setExpandedId(isExpanded ? null : incident.id); } }}
+                  className="p-3.5 flex items-center justify-between cursor-pointer hover:bg-white/5 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  role="button"
+                  tabIndex={0}
+                  aria-expanded={isExpanded}
+                  aria-controls={`incident-details-${incident.id}`}
                 >
                   <div className="flex items-start gap-3">
                     <div className="p-1.5 rounded-lg bg-white/5 text-zinc-400 mt-0.5">
@@ -268,7 +273,7 @@ export const LiveIncidentTracker: React.FC<LiveIncidentTrackerProps> = ({
 
                 {/* Expanded Details Panel */}
                 {isExpanded && (
-                  <div className="border-t border-white/5 p-4 bg-[#050507]/60 text-[11px] font-mono space-y-4">
+                  <div id={`incident-details-${incident.id}`} className="border-t border-white/5 p-4 bg-[#050507]/60 text-[11px] font-mono space-y-4">
                     {/* Duration Timeline Tracker */}
                     <IncidentDuration reportedAt={incident.reportedAt} resolvedAt={incident.resolvedAt} status={incident.status} />
 
