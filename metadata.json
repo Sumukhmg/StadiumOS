@@ -1,0 +1,6 @@
+{
+  "name": "StadiumOS",
+  "description": "The AI Operating System for FIFA World Cup 2026. Coordinates multi-agent security, crowds, transport, energy, and weather with predictive simulations and interactive digital twins.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
