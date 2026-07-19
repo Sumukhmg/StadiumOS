@@ -67,8 +67,12 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
           <g
             className={getZoneAnimation("transit_hub", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("transit_hub")}
+            onKeyDown={(e) => e.key === "Enter" && onZoneSelect("transit_hub")}
             onMouseEnter={() => setHoveredZoneId("transit_hub")}
             onMouseLeave={() => setHoveredZoneId(null)}
+            role="button"
+            tabIndex={0}
+            aria-label="Select Transit Hub Zone"
           >
             <rect
               x="30"
@@ -89,8 +93,12 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
           <g
             className={getZoneAnimation("vip_lounge", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("vip_lounge")}
+            onKeyDown={(e) => e.key === "Enter" && onZoneSelect("vip_lounge")}
             onMouseEnter={() => setHoveredZoneId("vip_lounge")}
             onMouseLeave={() => setHoveredZoneId(null)}
+            role="button"
+            tabIndex={0}
+            aria-label="Select VIP Lounges Zone"
           >
             <rect
               x="450"
@@ -111,8 +119,12 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
           <g
             className={getZoneAnimation("gate_c", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("gate_c")}
+            onKeyDown={(e) => e.key === "Enter" && onZoneSelect("gate_c")}
             onMouseEnter={() => setHoveredZoneId("gate_c")}
             onMouseLeave={() => setHoveredZoneId(null)}
+            role="button"
+            tabIndex={0}
+            aria-label="Select Gate C Perimeter Zone"
           >
             <path
               d="M 220 30 L 380 30 L 380 70 L 220 70 Z"
@@ -134,8 +146,12 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
             strokeWidth={selectedZoneId === "concourse_a" ? "2.5" : "1.5"}
             className={getZoneAnimation("concourse_a", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("concourse_a")}
+            onKeyDown={(e) => e.key === "Enter" && onZoneSelect("concourse_a")}
             onMouseEnter={() => setHoveredZoneId("concourse_a")}
             onMouseLeave={() => setHoveredZoneId(null)}
+            role="button"
+            tabIndex={0}
+            aria-label="Select Concourse East"
           />
 
           {/* Concourse West */}
@@ -146,8 +162,12 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
             strokeWidth={selectedZoneId === "concourse_b" ? "2.5" : "1.5"}
             className={getZoneAnimation("concourse_b", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("concourse_b")}
+            onKeyDown={(e) => e.key === "Enter" && onZoneSelect("concourse_b")}
             onMouseEnter={() => setHoveredZoneId("concourse_b")}
             onMouseLeave={() => setHoveredZoneId(null)}
+            role="button"
+            tabIndex={0}
+            aria-label="Select Concourse West"
           />
 
           {/* Stand A (Lower Deck Ring) */}
@@ -161,8 +181,12 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
             strokeWidth={selectedZoneId === "stand_a" ? "3" : "1.5"}
             className={getZoneAnimation("stand_a", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("stand_a")}
+            onKeyDown={(e) => e.key === "Enter" && onZoneSelect("stand_a")}
             onMouseEnter={() => setHoveredZoneId("stand_a")}
             onMouseLeave={() => setHoveredZoneId(null)}
+            role="button"
+            tabIndex={0}
+            aria-label="Select Stand A"
           />
 
           {/* Stand B (Upper Deck Ring) */}
@@ -177,16 +201,24 @@ export const DigitalTwin: React.FC<DigitalTwinProps> = ({ zones, onZoneSelect, s
             strokeDasharray="4,4"
             className={getZoneAnimation("stand_b", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("stand_b")}
+            onKeyDown={(e) => e.key === "Enter" && onZoneSelect("stand_b")}
             onMouseEnter={() => setHoveredZoneId("stand_b")}
             onMouseLeave={() => setHoveredZoneId(null)}
+            role="button"
+            tabIndex={0}
+            aria-label="Select Stand B"
           />
 
           {/* Center Pitch (Field of Play) */}
           <g
             className={getZoneAnimation("pitch", "cursor-pointer transition-all duration-300")}
             onClick={() => onZoneSelect("pitch")}
+            onKeyDown={(e) => e.key === "Enter" && onZoneSelect("pitch")}
             onMouseEnter={() => setHoveredZoneId("pitch")}
             onMouseLeave={() => setHoveredZoneId(null)}
+            role="button"
+            tabIndex={0}
+            aria-label="Select Pitch Zone"
           >
             {/* Field Green Overlay */}
             <ellipse

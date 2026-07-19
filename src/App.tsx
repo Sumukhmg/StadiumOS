@@ -26,27 +26,27 @@ export default function App() {
   // Time tracker
   const [currentTime, setCurrentTime] = useState(new Date("2026-07-19T01:21:01-07:00"));
 
-  // Fetch current state from full-stack server
-  const fetchState = async () => {
-    try {
-      const response = await fetch("/api/state");
-      if (!response.ok) return; // Silent return on non-200
-      const data = await response.json();
-      setZones(data.zones);
-      setAgents(data.agents);
-      setIncidents(data.incidents);
-      setTelemetry(data.telemetry);
-    } catch (err: any) {
-      // Ignore network errors during dev server restarts
-      if (err.message && err.message.includes("Failed to fetch")) {
-        return;
-      }
-      console.error("Failed to fetch stadium state:", err);
-    }
-  };
-
   // Set up polling
   useEffect(() => {
+    // Fetch current state from full-stack server
+    const fetchState = async () => {
+      try {
+        const response = await fetch("/api/state");
+        if (!response.ok) return; // Silent return on non-200
+        const data = await response.json();
+        setZones(data.zones);
+        setAgents(data.agents);
+        setIncidents(data.incidents);
+        setTelemetry(data.telemetry);
+      } catch (err: any) {
+        // Ignore network errors during dev server restarts
+        if (err.message && err.message.includes("Failed to fetch")) {
+          return;
+        }
+        console.error("Failed to fetch stadium state:", err);
+      }
+    };
+
     fetchState();
     const interval = setInterval(() => {
       fetchState();
